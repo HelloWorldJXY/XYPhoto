@@ -51,15 +51,16 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
             let recentAddAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .SmartAlbumRecentlyAdded, options: nil)
             getGroupData(recentAddAlbums)
             
-            
-//            let SelfieAndScreenshotsAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .Any, options: nil)
-//            SelfieAndScreenshotsAlbums.enumerateObjectsUsingBlock( {(collections, count, success) in
-//                if let assetCollection = collections as? PHAssetCollection {
-//                     if assetCollection.localizedTitle == "Screenshots" || assetCollection.localizedTitle == "Selfies"{
-//                        weakSelf!.fillDataSoure(assetCollection)
-//                    }
-//                }
-//            } )
+            //SelfieAndScreenshotsAlbums can only be used in true machine, unless simulator
+            //Warning
+            let SelfieAndScreenshotsAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .Any, options: nil)
+            SelfieAndScreenshotsAlbums.enumerateObjectsUsingBlock( {(collections, count, success) in
+                if let assetCollection = collections as? PHAssetCollection {
+                     if assetCollection.localizedTitle == "Screenshots" || assetCollection.localizedTitle == "Selfies"{
+                        weakSelf!.fillDataSoure(assetCollection)
+                    }
+                }
+            } )
 
             let userAlbumsOptions = PHFetchOptions()
             userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
