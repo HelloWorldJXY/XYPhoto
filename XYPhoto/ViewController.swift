@@ -30,10 +30,10 @@ class ViewController: UIViewController {
 
     func buttonClick(){
         let pickerVC = PhotoLibaryViewController()
-        pickerVC.show()
-//        let photoGroupVC = PhotoGroupPickerViewController()
-////        self.presentViewController(photoGroupVC, animated: false,completion: nil)
-//        self.navigationController?.pushViewController(photoGroupVC , animated: true)
+        let photoGroupVC = PhotoGroupPickerViewController()
+        let nav = UINavigationController.init(rootViewController: photoGroupVC)
+        nav.pushViewController(pickerVC, animated: false)
+        self.presentViewController(nav, animated: true,completion: nil)
     }
 
     override func didReceiveMemoryWarning() {

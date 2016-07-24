@@ -18,7 +18,6 @@ class PhotoLibaryViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.blueColor()
 
-        setNavgationView()
         setnav()
         // Do any additional setup after loading the view.
         
@@ -42,13 +41,14 @@ class PhotoLibaryViewController: UIViewController {
     }
 
     func setnav() {
-        let backButton = UIButton(type: .Custom)
-        backButton.frame = CGRectMake(0, 0, 70, 44)
-        backButton.backgroundColor = UIColor.lightGrayColor()
-        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
-        backButton.setTitle("取消", forState: .Normal)
-        backButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), forControlEvents: .TouchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backButton)
+        let cancleButton = UIButton(type: .Custom)
+        cancleButton.frame = CGRectMake(0, 0, 70, 44)
+        cancleButton.backgroundColor = UIColor.clearColor()
+        cancleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        cancleButton.setTitle("取消", forState: .Normal)
+        cancleButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        cancleButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), forControlEvents: .TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: cancleButton)
 
     }
     
@@ -70,56 +70,19 @@ class PhotoLibaryViewController: UIViewController {
    
     func  cancleButtonClick() {
 
-        self.navigationController?.popViewControllerAnimated(true)
+        self.dismissViewControllerAnimated(true, completion: nil)
       
     }
     
-    
-    
-    func setNavgationView() {
-        let groupVC = PhotoGroupPickerViewController()
-        let navgationC = UINavigationController.init(rootViewController: groupVC)
-        navgationC.view.frame = view.bounds
+    func  backButtonClick() {
         
-        self.addChildViewController(navgationC)
+        self.navigationController?.popViewControllerAnimated(true)
         
-        self.view.addSubview(navgationC.view)
     }
-    override func didReceiveMemoryWarning() {
+    
+       override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func setUpTopViewController() -> UIViewController{
-        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
-
-        return  topViewControllerWithRootViewController(rootVC!)
-    }
-    
-    func show() {
-        setUpTopViewController().presentViewController(self, animated: true, completion: nil)
-
-    }
-   
-    func topViewControllerWithRootViewController(rootViewController:UIViewController) -> UIViewController {
-        
-        if rootViewController.isKindOfClass(UITabBarController) {
-            let tabbarController = rootViewController as? UITabBarController
-            return topViewControllerWithRootViewController((tabbarController?.selectedViewController)!)
-        }else if rootViewController.isKindOfClass(UINavigationController) {
-            let navgationController = rootViewController as? UINavigationController
-            if let presentedViewcontroller = navgationController?.presentedViewController {
-                return topViewControllerWithRootViewController(presentedViewcontroller)
-            }else{
-                return rootViewController
- 
-            }
-        }else if rootViewController.isKindOfClass((rootViewController.presentedViewController?.classForCoder)!) {
-            let viewcontroller = rootViewController
-            return topViewControllerWithRootViewController(viewcontroller)
-        }else{
-            return rootViewController
-
-        }
-    }
 }
