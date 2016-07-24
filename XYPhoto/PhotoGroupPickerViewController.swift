@@ -35,13 +35,12 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
         let backButton = UIButton(type: .Custom)
         backButton.frame = CGRectMake(0, 0, 70, 44)
         backButton.backgroundColor = UIColor.lightGrayColor()
-//        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
         backButton.setTitle("取消", forState: .Normal)
         backButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), forControlEvents: .TouchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backButton)
         self.navigationItem.hidesBackButton = true
-
     }
+    
     func  cancleButtonClick() {
         
         self.navigationController?.popViewControllerAnimated(true)

@@ -16,9 +16,11 @@ class PhotoLibaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.blueColor()
+
+        setNavgationView()
+        setnav()
+        // Do any additional setup after loading the view.
         
         let collectionViewFollowLayout = UICollectionViewFlowLayout()
         let screenWidth = UIScreen.mainScreen().bounds.width
@@ -30,10 +32,13 @@ class PhotoLibaryViewController: UIViewController {
         if let assetCollection = assetCollection {
             collectionView.setUpAssetCollection(assetCollection)
             title = navTitle
+        }else{
+            let cameraRollAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .SmartAlbumUserLibrary, options: nil)
+            getGroupData(cameraRollAlbums)
+
         }
         view.addSubview(collectionView)
         
-        setnav()
     }
 
     func setnav() {
@@ -46,38 +51,75 @@ class PhotoLibaryViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backButton)
 
     }
+    
+    
+    
+    func getGroupData(phAssestResult :PHFetchResult) {
+        
+        weak var weakSelf = self
+        
+        phAssestResult.enumerateObjectsUsingBlock( {(collections, count, success) in
+            
+            
+            print("phAssestResult count     \(count)")
+            if let collection = collections as? PHAssetCollection {
+                weakSelf!.collectionView.setUpAssetCollection(collection)
+            }
+        } )
+    }
+   
     func  cancleButtonClick() {
 
         self.navigationController?.popViewControllerAnimated(true)
       
     }
     
+    
+    
+    func setNavgationView() {
+        let groupVC = PhotoGroupPickerViewController()
+        let navgationC = UINavigationController.init(rootViewController: groupVC)
+        navgationC.view.frame = view.bounds
+        
+        self.addChildViewController(navgationC)
+        
+        self.view.addSubview(navgationC.view)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func setUpTopViewController() {
-        
+    func setUpTopViewController() -> UIViewController{
+        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+
+        return  topViewControllerWithRootViewController(rootVC!)
     }
     
     func show() {
-        let rootVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+        setUpTopViewController().presentViewController(self, animated: true, completion: nil)
 
-//        let photoGroupVC = PhotoGroupPickerViewController()
-//        self.presentViewController(photoGroupVC, animated: false) {
-//            rootVC?.presentViewController(vc, animated: true, completion: nil)
-//        }
-        if ((rootVC?.isKindOfClass(UIViewController)) != nil) {
-//            navigationController?.topViewController!.presentViewController(self, animated: true, completion: nil)
-//            rootVC?.navigationController?.presentViewController(self, animated: true, completion: nil)
-            rootVC?.presentViewController(self, animated: true, completion: nil)
-        }else if ((rootVC?.isKindOfClass(UINavigationController)) != nil) {
-            rootVC?.presentViewController(self, animated: true, completion: nil)
-        }
     }
    
     func topViewControllerWithRootViewController(rootViewController:UIViewController) -> UIViewController {
-        return UIViewController()
+        
+        if rootViewController.isKindOfClass(UITabBarController) {
+            let tabbarController = rootViewController as? UITabBarController
+            return topViewControllerWithRootViewController((tabbarController?.selectedViewController)!)
+        }else if rootViewController.isKindOfClass(UINavigationController) {
+            let navgationController = rootViewController as? UINavigationController
+            if let presentedViewcontroller = navgationController?.presentedViewController {
+                return topViewControllerWithRootViewController(presentedViewcontroller)
+            }else{
+                return rootViewController
+ 
+            }
+        }else if rootViewController.isKindOfClass((rootViewController.presentedViewController?.classForCoder)!) {
+            let viewcontroller = rootViewController
+            return topViewControllerWithRootViewController(viewcontroller)
+        }else{
+            return rootViewController
+
+        }
     }
 }
