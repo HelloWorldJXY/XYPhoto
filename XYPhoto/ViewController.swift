@@ -33,6 +33,7 @@ class ViewController: UIViewController {
         let photoGroupVC = PhotoGroupPickerViewController()
         let nav = UINavigationController.init(rootViewController: photoGroupVC)
         nav.pushViewController(pickerVC, animated: false)
+        nav.navigationBar.barStyle = .Black
         self.presentViewController(nav, animated: true,completion: nil)
     }
 

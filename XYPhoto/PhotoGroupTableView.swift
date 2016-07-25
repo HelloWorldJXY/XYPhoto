@@ -94,13 +94,14 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
         onlyImagesOptions.predicate = NSPredicate(format: "mediaType = %i", PHAssetMediaType.Image.rawValue)
         if let result = PHAsset.fetchKeyAssetsInAssetCollection(phAssetCollection, options: onlyImagesOptions) {
             print("Images count: \(result.count)")
-            let groupItem = PhotoGroupItem()
-            groupItem.groupName = phAssetCollection.localizedTitle
-            groupItem.group = phAssetCollection
-            weakSelf!.groups.append(groupItem)
-            
-            weakSelf?.reloadData()
+            if result.count > 0 {
+                let groupItem = PhotoGroupItem()
+                groupItem.groupName = phAssetCollection.localizedTitle
+                groupItem.group = phAssetCollection
+                weakSelf!.groups.append(groupItem)
                 
+                weakSelf?.reloadData()
+            }                
         }
     }
     func refesh(){

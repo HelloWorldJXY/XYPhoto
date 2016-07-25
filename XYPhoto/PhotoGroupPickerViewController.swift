@@ -33,10 +33,11 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
     func setnav() {
         title = "照片"
         let backButton = UIButton(type: .Custom)
-        backButton.frame = CGRectMake(0, 0, 70, 44)
+        backButton.frame = CGRectMake(0, 0, 110, 44)
         backButton.backgroundColor = UIColor.clearColor()
         backButton.setTitle("取消", forState: .Normal)
-        backButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -40)
+        backButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         backButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), forControlEvents: .TouchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backButton)
         self.navigationItem.hidesBackButton = true

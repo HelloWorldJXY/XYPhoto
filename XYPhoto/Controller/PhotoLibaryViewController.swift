@@ -42,11 +42,11 @@ class PhotoLibaryViewController: UIViewController {
 
     func setnav() {
         let cancleButton = UIButton(type: .Custom)
-        cancleButton.frame = CGRectMake(0, 0, 70, 44)
+        cancleButton.frame = CGRectMake(0, 0, 110, 44)
         cancleButton.backgroundColor = UIColor.clearColor()
-        cancleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+        cancleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -40)
         cancleButton.setTitle("取消", forState: .Normal)
-        cancleButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        cancleButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         cancleButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), forControlEvents: .TouchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: cancleButton)
 

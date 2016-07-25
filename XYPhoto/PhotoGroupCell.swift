@@ -68,12 +68,18 @@ class PhotoGroupCell: UITableViewCell {
         
         let groupAsset = group.group        
         let fetchResult = PHAsset.fetchAssetsInAssetCollection(groupAsset!, options: nil)
-        let phAsset = fetchResult.lastObject as? PHAsset
-        groupCountslabel.text =  String(fetchResult.count)
-        let option = PHImageRequestOptions()
-        option.deliveryMode = .Opportunistic
-
         
+        if let phAsset = fetchResult.lastObject as? PHAsset  {
+            let option = PHImageRequestOptions()
+            option.deliveryMode = .Opportunistic
+            PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(160, 160), contentMode: .AspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
+                
+                self.imageView?.image = image
+                
+            })
+        }
+        
+        groupCountslabel.text =  String(fetchResult.count)
         groupNameLabel.font = UIFont.boldSystemFontOfSize(nameFont)
         
         var countString = "(" + String(fetchResult.count) + ")"
@@ -85,12 +91,7 @@ class PhotoGroupCell: UITableViewCell {
 
         self.group = groupAsset
         
-        PHImageManager().requestImageForAsset(phAsset!, targetSize: CGSizeMake(160, 160), contentMode: .AspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
-
-           self.imageView?.image = image
-            
-            
-        })
+       
 
     }
 }
