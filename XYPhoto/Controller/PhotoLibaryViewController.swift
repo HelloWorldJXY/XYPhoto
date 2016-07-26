@@ -53,7 +53,6 @@ class PhotoLibaryViewController: UIViewController {
     }
     
     
-    
     func getGroupData(phAssestResult :PHFetchResult) {
         
         weak var weakSelf = self

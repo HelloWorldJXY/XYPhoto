@@ -40,7 +40,7 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let cell = dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! PhotoLibraryCollectionCell
         cell.setOriginStatus()
-        cell.backgroundColor = UIColor.yellowColor()
+        cell.backgroundColor = UIColor.whiteColor()
         let phAsset = assetArray[indexPath.row]
         let option = PHImageRequestOptions()
         option.deliveryMode = .Opportunistic
