@@ -41,6 +41,17 @@ class PhotoLibaryViewController: UIViewController ,PHPhotoLibraryChangeObserver{
     }
 
     func setnav() {
+        let backButton = UIButton(type: .Custom)
+        backButton.frame = CGRectMake(0, 0, 70, 44)
+        backButton.backgroundColor = UIColor.clearColor()
+        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
+        backButton.setImage(UIImage(named: "backIcon"), forState: .Normal)
+        backButton.imageEdgeInsets = UIEdgeInsetsMake(0, -40, 0, 0)
+        backButton.setTitle("返回", forState: .Normal)
+        backButton.addTarget(self, action: #selector(PhotoLibaryViewController.backButtonClick), forControlEvents: .TouchUpInside)
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: backButton)
+        
         let cancleButton = UIButton(type: .Custom)
         cancleButton.frame = CGRectMake(0, 0, 110, 44)
         cancleButton.backgroundColor = UIColor.clearColor()
@@ -52,7 +63,10 @@ class PhotoLibaryViewController: UIViewController ,PHPhotoLibraryChangeObserver{
 
     }
     
-
+    func  backButtonClick() {
+        
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     
     func getGroupData(phAssestResult :PHFetchResult) {
         
@@ -72,12 +86,6 @@ class PhotoLibaryViewController: UIViewController ,PHPhotoLibraryChangeObserver{
 
         self.dismissViewControllerAnimated(true, completion: nil)
       
-    }
-    
-    func  backButtonClick() {
-        
-        self.navigationController?.popViewControllerAnimated(true)
-        
     }
     
        override func didReceiveMemoryWarning() {

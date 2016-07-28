@@ -72,7 +72,9 @@ class PhotoGroupCell: UITableViewCell {
         if let phAsset = fetchResult.lastObject as? PHAsset  {
             let option = PHImageRequestOptions()
             option.deliveryMode = .Opportunistic
-            PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(160, 160), contentMode: .AspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
+            option.synchronous = true
+
+            PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(100, 100), contentMode: .AspectFill, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
                 
                 self.imageView?.image = image
                 

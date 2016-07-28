@@ -22,6 +22,7 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
         dataSource = self
         self.registerNib(UINib.init(nibName: cellIdentifier, bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: cellIdentifier)
         weak var weakSelf = self
+        
         let fetchResult = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
         fetchResult.enumerateObjectsUsingBlock { (asset, count, success) in
             weakSelf!.assetArray.append(asset as! PHAsset)
@@ -36,20 +37,11 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
         return assetArray.count
     }
     
-    // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let cell = dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! PhotoLibraryCollectionCell
         cell.setOriginStatus()
-        cell.backgroundColor = UIColor.whiteColor()
-        let phAsset = assetArray[indexPath.row]
-        let option = PHImageRequestOptions()
-        option.deliveryMode = .Opportunistic
-        PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(2048, 2048), contentMode: .AspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
-            cell.setData(image!, status: false)
-            
-        })
-        
-        
+        let phasset = assetArray[indexPath.row]
+        cell.fillData(phasset)
         return cell
     }
     
@@ -59,9 +51,6 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
     
     func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool{
         return false
-    }
-    func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath){
-        
     }
 
     

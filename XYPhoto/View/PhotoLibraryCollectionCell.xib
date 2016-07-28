@@ -21,12 +21,16 @@
                             <constraint firstAttribute="width" constant="100" id="vZe-nE-NQa"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDy-EB-ht3">
-                        <rect key="frame" x="63" y="25" width="50" height="50"/>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDy-EB-ht3">
+                        <rect key="frame" x="82" y="39" width="13" height="22"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="UdJ-0Q-xNg"/>
                             <constraint firstAttribute="height" constant="50" id="iM3-BW-mWd"/>
                         </constraints>
+                        <state key="normal" image="quan"/>
+                        <connections>
+                            <action selector="selectButtonClick:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Jd5-aY-huO"/>
+                        </connections>
                     </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -45,4 +49,7 @@
             <point key="canvasLocation" x="320" y="286"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="quan" width="13" height="13"/>
+    </resources>
 </document>
