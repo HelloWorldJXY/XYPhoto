@@ -21,8 +21,8 @@
                             <constraint firstAttribute="width" constant="100" id="vZe-nE-NQa"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDy-EB-ht3">
-                        <rect key="frame" x="82" y="39" width="13" height="22"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YDy-EB-ht3">
+                        <rect key="frame" x="80" y="0.0" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="UdJ-0Q-xNg"/>
                             <constraint firstAttribute="height" constant="50" id="iM3-BW-mWd"/>
@@ -38,8 +38,8 @@
             <constraints>
                 <constraint firstItem="q2B-wR-umU" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="CpL-EV-ppf"/>
                 <constraint firstItem="q2B-wR-umU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="JOp-wh-TBg"/>
-                <constraint firstAttribute="trailing" secondItem="YDy-EB-ht3" secondAttribute="trailing" constant="17" id="UxQ-V0-XYG"/>
-                <constraint firstItem="YDy-EB-ht3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="25" id="nLN-69-gyH"/>
+                <constraint firstAttribute="trailing" secondItem="YDy-EB-ht3" secondAttribute="trailing" id="UxQ-V0-XYG"/>
+                <constraint firstItem="YDy-EB-ht3" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nLN-69-gyH"/>
             </constraints>
             <size key="customSize" width="130" height="98"/>
             <connections>
