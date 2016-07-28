@@ -8,7 +8,7 @@
 
 import UIKit
 import Photos
-class PhotoLibaryViewController: UIViewController {
+class PhotoLibaryViewController: UIViewController ,PHPhotoLibraryChangeObserver{
     
     var assetCollection : PHAssetCollection?
     var collectionView : PhotoLibaryCollectionView!
@@ -52,6 +52,7 @@ class PhotoLibaryViewController: UIViewController {
 
     }
     
+
     
     func getGroupData(phAssestResult :PHFetchResult) {
         
@@ -84,4 +85,14 @@ class PhotoLibaryViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func awakeFromNib() {
+        PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+    }
+    
+    func photoLibraryDidChange(changeInstance: PHChange){
+        
+    }
+    deinit {
+        PHPhotoLibrary.sharedPhotoLibrary().unregisterChangeObserver(self)
+    }
 }

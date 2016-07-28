@@ -10,7 +10,7 @@ import UIKit
 
 class PhotoLibraryManager {
     
-    public  func show(viewcontroller : UIViewController) {
+    internal  func show(viewcontroller : UIViewController) {
         let pickerVC = PhotoLibaryViewController()
         let photoGroupVC = PhotoGroupPickerViewController()
         let nav = UINavigationController.init(rootViewController: photoGroupVC)
