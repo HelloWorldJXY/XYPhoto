@@ -29,21 +29,21 @@ class ViewController: UIViewController {
     }
 
     func buttonClick(){
-//        let status = PHPhotoLibrary.authorizationStatus()
-//        
-//        switch status {
-//        case .authorized:
+        let status = PHPhotoLibrary.authorizationStatus()
+        
+        switch status {
+        case .authorized:
             PhotoLibraryManager().show(self)
-//            break
-//        case .notDetermined:
-//            PHPhotoLibrary.requestAuthorization({ (status) in })
-//            break
-//        case .denied:
-//            fetchAlbumAuthoration()
-//            break
-//        default:
-//            fetchAlbumAuthoration()
-//        }
+            break
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({ (status) in })
+            break
+        case .denied:
+            fetchAlbumAuthoration()
+            break
+        default:
+            fetchAlbumAuthoration()
+        }
     }
     
     func fetchAlbumAuthoration(){
