@@ -16,7 +16,7 @@ class PhotoLibraryCollectionCell: UICollectionViewCell {
     @IBOutlet weak var selectButton: UIButton!
     var selectState = false
     
-    @IBAction func selectButtonClick(sender: AnyObject) {
+    @IBAction func selectButtonClick(_ sender: AnyObject) {
         selectState = !selectState
         setButton()
     }
@@ -26,26 +26,26 @@ class PhotoLibraryCollectionCell: UICollectionViewCell {
     }
 
     func setOriginStatus() {
-        imageView.hidden = true
-        selectButton.hidden = true
+        imageView.isHidden = true
+        selectButton.isHidden = true
     }
     
     func setButton()  {
         if selectState {
-            selectButton.setImage(UIImage(named: "fliter_selected_tribe_"), forState: .Normal)
+            selectButton.setImage(UIImage(named: "fliter_selected_tribe_"), for: UIControlState())
         }else{
-            selectButton.setImage(UIImage(named: "quan"), forState: .Normal)
+            selectButton.setImage(UIImage(named: "quan"), for: UIControlState())
         }
     }
-    func fillData(phAsset : PHAsset)  {
-        imageView.hidden = false
-        selectButton.hidden = false
+    func fillData(_ phAsset : PHAsset)  {
+        imageView.isHidden = false
+        selectButton.isHidden = false
         setButton()
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         let option = PHImageRequestOptions()
-        option.deliveryMode = .Opportunistic
-        option.synchronous = true
-        PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(2048, 2048), contentMode: .AspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
+        option.deliveryMode = .opportunistic
+        option.isSynchronous = true
+        PHCachingImageManager().requestImage(for: phAsset, targetSize: CGSize(width: 2048, height: 2048), contentMode: .aspectFit, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
             self.imageView.image = image!
 
         })

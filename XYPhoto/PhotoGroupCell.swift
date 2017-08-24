@@ -28,18 +28,18 @@ class PhotoGroupCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
-    func commomInitCell(group: PhotoGroupItem) {
+    func commomInitCell(_ group: PhotoGroupItem) {
         for subView in contentView.subviews {
-            subView.hidden = false
+            subView.isHidden = false
         }
         imageView?.clipsToBounds = true
-        selectionStyle = .None
+        selectionStyle = .none
 
         
         var groupNameString = group.groupName
@@ -57,24 +57,24 @@ class PhotoGroupCell: UITableViewCell {
         }else if groupNameString == "Screenshots"{
             groupNameString = "屏幕快照"
         }else{
-            groupNameString = groupNameString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            groupNameString = groupNameString.stringByReplacingOccurrencesOfString(" ", withString: "")
+            groupNameString = groupNameString?.trimmingCharacters(in: CharacterSet.whitespaces)
+            groupNameString = groupNameString?.replacingOccurrences(of: " ", with: "")
         }
         groupNameLabel.text = groupNameString
-        let groupNameLength = CGFloat(groupNameString.characters.count * Int(nameFont))
+        let groupNameLength = CGFloat((groupNameString?.characters.count)! * Int(nameFont))
         let margin = CGFloat(5)
         groupNameLabWid.constant = margin * 2 + groupNameLength
 
         
         let groupAsset = group.group        
-        let fetchResult = PHAsset.fetchAssetsInAssetCollection(groupAsset!, options: nil)
+        let fetchResult = PHAsset.fetchAssets(in: groupAsset!, options: nil)
         
-        if let phAsset = fetchResult.lastObject as? PHAsset  {
+        if let phAsset = fetchResult.lastObject  {
             let option = PHImageRequestOptions()
-            option.deliveryMode = .Opportunistic
-            option.synchronous = true
+            option.deliveryMode = .opportunistic
+            option.isSynchronous = true
 
-            PHImageManager().requestImageForAsset(phAsset, targetSize: CGSizeMake(100, 100), contentMode: .AspectFill, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
+            PHImageManager().requestImage(for: phAsset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
                 
                 self.imageView?.image = image
                 
@@ -82,14 +82,14 @@ class PhotoGroupCell: UITableViewCell {
         }
         
         groupCountslabel.text =  String(fetchResult.count)
-        groupNameLabel.font = UIFont.boldSystemFontOfSize(nameFont)
+        groupNameLabel.font = UIFont.boldSystemFont(ofSize: nameFont)
         
         var countString = "(" + String(fetchResult.count) + ")"
-        countString = countString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        countString = countString.trimmingCharacters(in: CharacterSet.whitespaces)
         let countsLength = CGFloat(countString.characters.count * Int(nameFont))
         countsLabWid.constant =  countsLength
         groupCountslabel.text = countString
-        groupCountslabel.font = UIFont.systemFontOfSize(nameFont)
+        groupCountslabel.font = UIFont.systemFont(ofSize: nameFont)
 
         self.group = groupAsset
         

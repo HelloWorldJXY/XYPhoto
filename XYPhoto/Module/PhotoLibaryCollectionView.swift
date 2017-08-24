@@ -16,40 +16,40 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
     
     var assetArray = [PHAsset]()
     
-    func setUpAssetCollection( assetCollection : PHAssetCollection) {
-        backgroundColor = UIColor.whiteColor()
+    func setUpAssetCollection( _ assetCollection : PHAssetCollection) {
+        backgroundColor = UIColor.white
         delegate = self
         dataSource = self
-        self.registerNib(UINib.init(nibName: cellIdentifier, bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: cellIdentifier)
+        self.register(UINib.init(nibName: cellIdentifier, bundle: Bundle.main), forCellWithReuseIdentifier: cellIdentifier)
         weak var weakSelf = self
         
-        let fetchResult = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
-        fetchResult.enumerateObjectsUsingBlock { (asset, count, success) in
-            weakSelf!.assetArray.append(asset as! PHAsset)
-        }
+        let fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
+        fetchResult.enumerateObjects({ (asset, count, success) in
+            weakSelf!.assetArray.append(asset )
+        })
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return assetArray.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
-        let cell = dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! PhotoLibraryCollectionCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        let cell = dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PhotoLibraryCollectionCell
         cell.setOriginStatus()
         let phasset = assetArray[indexPath.row]
         cell.fillData(phasset)
         return cell
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
+    func numberOfSections(in collectionView: UICollectionView) -> Int{
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool{
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool{
         return false
     }
 

@@ -10,13 +10,13 @@ import UIKit
 
 class PhotoLibraryManager {
     
-    internal  func show(viewcontroller : UIViewController) {
+    internal  func show(_ viewcontroller : UIViewController) {
         let pickerVC = PhotoLibaryViewController()
         let photoGroupVC = PhotoGroupPickerViewController()
         let nav = UINavigationController.init(rootViewController: photoGroupVC)
         nav.pushViewController(pickerVC, animated: false)
-        nav.navigationBar.barStyle = .Black
-        viewcontroller.presentViewController(nav, animated: true,completion: nil)
+        nav.navigationBar.barStyle = .black
+        viewcontroller.present(nav, animated: true,completion: nil)
         
     }
     

@@ -10,74 +10,65 @@ import UIKit
 import Photos
 
 @objc protocol PhotoGroupTableDelegate {
-    func didSelectPhotoGroupTableRowCallBack(assetCollection : PHAssetCollection ,name : String)
+    func didSelectPhotoGroupTableRowCallBack(_ assetCollection : PHAssetCollection ,name : String)
 }
 
 class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate {
     var tableCellIdentifier = "PhotoGroupCell"
     var groups = [PhotoGroupItem]()
-    var assetsFetchResults: PHFetchResult?
+    var assetsFetchResults: PHFetchResult<AnyObject>?
     var totleCount = 0
     weak var photoGroupDelegate : PhotoGroupTableDelegate?
-    func setUpSelf(rect : CGRect){
+    
+    func setUpSelf(_ rect : CGRect){
         frame = rect
-        backgroundColor = UIColor.clearColor()
-        separatorStyle = .SingleLine
+        backgroundColor = UIColor.clear
+        separatorStyle = .singleLine
         separatorInset = UIEdgeInsetsMake(0, -120, 0, -120)
-        registerNib(UINib(nibName : tableCellIdentifier, bundle : nil), forCellReuseIdentifier: tableCellIdentifier)
-        
+        register(UINib(nibName : tableCellIdentifier, bundle : nil), forCellReuseIdentifier: tableCellIdentifier)
+        delegate = self
+        dataSource = self
         setDataSource()
     }
     
     func setDataSource() {
         
-        
-        
-        let states = PHPhotoLibrary.authorizationStatus()
-        if states == .Denied {
-            showAlert()
-        }else if states == .Authorized{
-            delegate = self
-            dataSource = self
-            
-            weak var weakSelf = self
-            self.groups.removeAll()
-
-
-           
-            let cameraRollAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .SmartAlbumUserLibrary, options: nil)
-            getGroupData(cameraRollAlbums)
-        
-            let recentAddAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .SmartAlbumRecentlyAdded, options: nil)
-            getGroupData(recentAddAlbums)
-            
-            //SelfieAndScreenshotsAlbums can only be used in true machine, unless simulator
-            //Warning
-            let SelfieAndScreenshotsAlbums = PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .Any, options: nil)
-            SelfieAndScreenshotsAlbums.enumerateObjectsUsingBlock( {(collections, count, success) in
-                if let assetCollection = collections as? PHAssetCollection {
-                     if assetCollection.localizedTitle == "Screenshots" || assetCollection.localizedTitle == "Selfies"{
-                        weakSelf!.fillDataSoure(assetCollection)
-                    }
-                }
-            } )
-
-            let userAlbumsOptions = PHFetchOptions()
-            userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-            
-            let userAlbums = PHAssetCollection.fetchAssetCollectionsWithType(PHAssetCollectionType.Album, subtype: PHAssetCollectionSubtype.Any, options: userAlbumsOptions)
-            print("userAlbums : \(userAlbums.count)")
-            getGroupData(userAlbums)
-           
-        }
-        
+        fetchData()
     }
     
-    func getGroupData(phAssestResult :PHFetchResult) {
+    func fetchData() {
+        
+        weak var weakSelf = self
+        
+        let cameraRollAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
+        getGroupData(cameraRollAlbums as! PHFetchResult<AnyObject>)
+        
+        let recentAddAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumRecentlyAdded, options: nil)
+        getGroupData(recentAddAlbums as! PHFetchResult<AnyObject>)
+        
+        //SelfieAndScreenshotsAlbums can only be used in true machine, unless simulator
+        //Warning
+        let SelfieAndScreenshotsAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: nil)
+        SelfieAndScreenshotsAlbums.enumerateObjects( {(collections, count, success) in
+            if let assetCollection = collections as? PHAssetCollection {
+                if assetCollection.localizedTitle == "Screenshots" || assetCollection.localizedTitle == "Selfies"{
+                    weakSelf!.fillDataSoure(assetCollection)
+                }
+            }
+        } )
+        
+        let userAlbumsOptions = PHFetchOptions()
+        userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
+        
+        let userAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.album, subtype: PHAssetCollectionSubtype.any, options: userAlbumsOptions)
+        print("userAlbums : \(userAlbums.count)")
+        getGroupData(userAlbums as! PHFetchResult<AnyObject>)
+    }
+    func getGroupData(_ phAssestResult :PHFetchResult<AnyObject>) {
         
         weak var weakSelf = self
 
-        phAssestResult.enumerateObjectsUsingBlock( {(collections, count, success) in
+        phAssestResult.enumerateObjects( {(collections, count, success) in
             
             
             print("phAssestResult count     \(count)")
@@ -87,19 +78,20 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
         } )
     }
     
-    func fillDataSoure(phAssetCollection : PHAssetCollection) {
+    func fillDataSoure(_ phAssetCollection : PHAssetCollection) {
         weak var weakSelf = self
 
         let onlyImagesOptions = PHFetchOptions()
-        onlyImagesOptions.predicate = NSPredicate(format: "mediaType = %i", PHAssetMediaType.Image.rawValue)
-        if let result = PHAsset.fetchKeyAssetsInAssetCollection(phAssetCollection, options: onlyImagesOptions) {
+        onlyImagesOptions.predicate = NSPredicate(format: "mediaType = %i", PHAssetMediaType.image.rawValue)
+        if let result = PHAsset.fetchKeyAssets(in: phAssetCollection, options: onlyImagesOptions) {
             print("Images count: \(result.count)")
             if result.count > 0 {
                 let groupItem = PhotoGroupItem()
                 groupItem.groupName = phAssetCollection.localizedTitle
                 groupItem.group = phAssetCollection
+                weakSelf!.groups.removeAll()
                 weakSelf!.groups.append(groupItem)
-                
+
                 weakSelf?.reloadData()
             }                
         }
@@ -109,18 +101,18 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
         reloadData()
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
         return 60
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return self.groups.count
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell = tableView.dequeueReusableCellWithIdentifier(tableCellIdentifier, forIndexPath: indexPath) as! PhotoGroupCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell = tableView.dequeueReusableCell(withIdentifier: tableCellIdentifier, for: indexPath) as! PhotoGroupCell
         for subView in cell.contentView.subviews {
-            subView.hidden = true
+            subView.isHidden = true
         }
         let group = groups[indexPath.row]
         
@@ -128,12 +120,12 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
         return cell
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! PhotoGroupCell
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! PhotoGroupCell
         if let target = photoGroupDelegate {
             target.didSelectPhotoGroupTableRowCallBack(cell.group!, name: cell.groupNameLabel.text!)
         }
@@ -142,20 +134,20 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
 }
 extension PhotoGroupTableView{
     func showAlert()  {
-         let   mainInfoDictory =  NSBundle.mainBundle().infoDictionary!
+         let   mainInfoDictory =  Bundle.main.infoDictionary!
             
         let appName = mainInfoDictory["CFBundleName"] as! String
-        let alertController = UIAlertController(title: "提示",message: "请前往设置－>隐私－>照片,允许该" + appName + "使用获取相册功能", preferredStyle: UIAlertControllerStyle.Alert)
-        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.Default,handler: {  action in
+        let alertController = UIAlertController(title: "提示",message: "请前往设置－>隐私－>照片,允许该" + appName + "使用获取相册功能", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler: {  action in
             
         })
-        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.Default,handler: {  action in
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.default,handler: {  action in
             
         })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
-        let rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController
-        rootViewController!.presentViewController(alertController, animated: true, completion: nil)
+        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        rootViewController!.present(alertController, animated: true, completion: nil)
 
     }
     
