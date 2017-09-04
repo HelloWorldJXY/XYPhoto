@@ -34,66 +34,36 @@ class PhotoGroupCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func commomInitCell(_ group: PhotoGroupItem) {
-        for subView in contentView.subviews {
-            subView.isHidden = false
-        }
-        imageView?.clipsToBounds = true
+    public func  reloadCellWithPHAssetCollection(assetCollection : PHAssetCollection)  {
+        thumbImgView?.clipsToBounds = true
+        thumbImgView.image = UIImage(named: "thumbs_default")
         selectionStyle = .none
-
-        
-        var groupNameString = group.groupName
-        if groupNameString == "Camera Roll" {
-            groupNameString = "我的相册"
-        }
-        else if groupNameString == "My Photo Stream"{
-            groupNameString = "我的照片流"
-            
-        }else if groupNameString == "Recently Added"{
-            groupNameString = "最近添加"
-            
-        }else if groupNameString == "Selfies"{
-            groupNameString = "自拍"
-        }else if groupNameString == "Screenshots"{
-            groupNameString = "屏幕快照"
-        }else{
-            groupNameString = groupNameString?.trimmingCharacters(in: CharacterSet.whitespaces)
-            groupNameString = groupNameString?.replacingOccurrences(of: " ", with: "")
-        }
-        groupNameLabel.text = groupNameString
-        let groupNameLength = CGFloat((groupNameString?.characters.count)! * Int(nameFont))
+        let fetchResult = PHAsset.fetchAssets(in: assetCollection , options: nil)
+        self.groupNameLabel.text = assetCollection.localizedTitle
+        let groupNameLength = CGFloat((assetCollection.localizedTitle?.characters.count)! * Int(nameFont))
         let margin = CGFloat(5)
         groupNameLabWid.constant = margin * 2 + groupNameLength
-
-        
-        let groupAsset = group.group        
-        let fetchResult = PHAsset.fetchAssets(in: groupAsset!, options: nil)
-        
-        if let phAsset = fetchResult.lastObject  {
-            let option = PHImageRequestOptions()
-            option.deliveryMode = .opportunistic
-            option.isSynchronous = true
-
-            PHImageManager().requestImage(for: phAsset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: option, resultHandler: { (image, objects) in//获取相册的缩略图
-                
-                self.imageView?.image = image
-                
-            })
-        }
-        
-        groupCountslabel.text =  String(fetchResult.count)
-        groupNameLabel.font = UIFont.boldSystemFont(ofSize: nameFont)
         
         var countString = "(" + String(fetchResult.count) + ")"
         countString = countString.trimmingCharacters(in: CharacterSet.whitespaces)
         let countsLength = CGFloat(countString.characters.count * Int(nameFont))
         countsLabWid.constant =  countsLength
-        groupCountslabel.text = countString
-        groupCountslabel.font = UIFont.systemFont(ofSize: nameFont)
+        self.groupCountslabel.text = countString
 
-        self.group = groupAsset
-        
-       
+        if let lastCollection = fetchResult.lastObject {
+            let option = PHImageRequestOptions()
+            option.deliveryMode = .opportunistic
+            option.isSynchronous = true
 
+            PHImageManager.default().requestImage(for: lastCollection, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: option) { (thumbImg, objects) in
+                DispatchQueue.main.async {
+                    self.thumbImgView?.image = thumbImg
+                }
+            }
+        }
+
+    }
+    deinit {
+        print("PhotoGroupCell deinit")
     }
 }

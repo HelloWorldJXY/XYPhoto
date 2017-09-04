@@ -11,7 +11,6 @@ import Photos
 
 class PhotoGroupItem: NSObject {
 
-    var thumbImage : UIImage!
     var groupName : String!
     var  assetCounts : NSInteger = 0
     

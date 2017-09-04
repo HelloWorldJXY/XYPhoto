@@ -20,6 +20,7 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
         backgroundColor = UIColor.white
         delegate = self
         dataSource = self
+
         self.register(UINib.init(nibName: cellIdentifier, bundle: Bundle.main), forCellWithReuseIdentifier: cellIdentifier)
         weak var weakSelf = self
         

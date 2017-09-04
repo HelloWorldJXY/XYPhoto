@@ -11,13 +11,18 @@ import UIKit
 class PhotoLibraryManager {
     
     internal  func show(_ viewcontroller : UIViewController) {
+//        let pickerVC = PhotoLibaryViewController()
+//        let photoGroupVC = PhotoGroupPickerViewController()
+//        let nav = UINavigationController.init(rootViewController: photoGroupVC)
+//        nav.pushViewController(pickerVC, animated: false)
+//        nav.navigationBar.barStyle = .black
+//        viewcontroller.present(nav, animated: true,completion: nil)
         let pickerVC = PhotoLibaryViewController()
         let photoGroupVC = PhotoGroupPickerViewController()
         let nav = UINavigationController.init(rootViewController: photoGroupVC)
         nav.pushViewController(pickerVC, animated: false)
         nav.navigationBar.barStyle = .black
         viewcontroller.present(nav, animated: true,completion: nil)
-        
     }
     
 }

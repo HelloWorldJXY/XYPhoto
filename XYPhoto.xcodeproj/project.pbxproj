@@ -24,6 +24,7 @@
 		E1068B1E1D3F7049008A90F9 /* PhotoLibaryCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1068B1D1D3F7049008A90F9 /* PhotoLibaryCollectionView.swift */; };
 		E1068B211D3F70C5008A90F9 /* PhotoLibraryCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1068B1F1D3F70C5008A90F9 /* PhotoLibraryCollectionCell.swift */; };
 		E1068B221D3F70C5008A90F9 /* PhotoLibraryCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1068B201D3F70C5008A90F9 /* PhotoLibraryCollectionCell.xib */; };
+		E12C49DF1F500CB400E5C707 /* CustomSetting.plist in Resources */ = {isa = PBXBuildFile; fileRef = E12C49DE1F500CB400E5C707 /* CustomSetting.plist */; };
 		E14AF3701D475B6400B2A49A /* PhotoLibraryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14AF36F1D475B6400B2A49A /* PhotoLibraryManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +69,7 @@
 		E1068B1D1D3F7049008A90F9 /* PhotoLibaryCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibaryCollectionView.swift; sourceTree = "<group>"; };
 		E1068B1F1D3F70C5008A90F9 /* PhotoLibraryCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryCollectionCell.swift; sourceTree = "<group>"; };
 		E1068B201D3F70C5008A90F9 /* PhotoLibraryCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoLibraryCollectionCell.xib; sourceTree = "<group>"; };
+		E12C49DE1F500CB400E5C707 /* CustomSetting.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CustomSetting.plist; sourceTree = "<group>"; };
 		E14AF36F1D475B6400B2A49A /* PhotoLibraryManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 		E1068ADA1D3F2DC1008A90F9 /* XYPhoto */ = {
 			isa = PBXGroup;
 			children = (
+				E12C49DD1F500CB400E5C707 /* CustomSettings */,
 				E1068ADB1D3F2DC1008A90F9 /* AppDelegate.swift */,
 				E14AF36E1D475B4A00B2A49A /* Tool */,
 				E1068B181D3F5EF1008A90F9 /* Module */,
@@ -188,6 +191,14 @@
 				E1068B1D1D3F7049008A90F9 /* PhotoLibaryCollectionView.swift */,
 			);
 			path = Module;
+			sourceTree = "<group>";
+		};
+		E12C49DD1F500CB400E5C707 /* CustomSettings */ = {
+			isa = PBXGroup;
+			children = (
+				E12C49DE1F500CB400E5C707 /* CustomSetting.plist */,
+			);
+			path = CustomSettings;
 			sourceTree = "<group>";
 		};
 		E14AF36E1D475B4A00B2A49A /* Tool */ = {
@@ -266,7 +277,7 @@
 				TargetAttributes = {
 					E1068AD71D3F2DC1008A90F9 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 245D8MNX79;
+						DevelopmentTeam = V76G292Y67;
 						LastSwiftMigration = 0830;
 					};
 					E1068AEB1D3F2DC1008A90F9 = {
@@ -307,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1068B221D3F70C5008A90F9 /* PhotoLibraryCollectionCell.xib in Resources */,
+				E12C49DF1F500CB400E5C707 /* CustomSetting.plist in Resources */,
 				E1068AE61D3F2DC1008A90F9 /* LaunchScreen.storyboard in Resources */,
 				E1068AE31D3F2DC1008A90F9 /* Assets.xcassets in Resources */,
 				E1068B101D3F2F62008A90F9 /* PhotoGroupCell.xib in Resources */,
@@ -491,10 +503,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = V76G292Y67;
 				INFOPLIST_FILE = XYPhoto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.personalProject.www.XYPhoto;
+				PRODUCT_BUNDLE_IDENTIFIER = com.syswin.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
@@ -507,10 +520,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = V76G292Y67;
 				INFOPLIST_FILE = XYPhoto/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.personalProject.www.XYPhoto;
+				PRODUCT_BUNDLE_IDENTIFIER = com.syswin.www;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;

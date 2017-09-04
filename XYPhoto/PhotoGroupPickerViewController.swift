@@ -13,6 +13,7 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.white
+        
         setUpTableView()
     }
     
@@ -36,7 +37,7 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
         backButton.frame = CGRect(x: 0, y: 0, width: 110, height: 44)
         backButton.backgroundColor = UIColor.clear
         backButton.setTitle("取消", for: UIControlState())
-        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -40)
+        backButton.titleEdgeInsets = UIEdgeInsetsMake(0, 40, 0, -40)
         backButton.setTitleColor(UIColor.white, for: UIControlState())
         backButton.addTarget(self, action: #selector(PhotoLibaryViewController.cancleButtonClick), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: backButton)
@@ -48,11 +49,11 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
         self.dismiss(animated: true, completion: nil)
         
     }
-    func didSelectPhotoGroupTableRowCallBack(_ assetCollection : PHAssetCollection ,name : String){
+    func didSelectPhotoGroupTableRowCallBack(_ assetCollection : PHAssetCollection){
         let vc = PhotoLibaryViewController()
-        print(self.navigationController)
         self.navigationController?.pushViewController(vc, animated: true)
-        vc.navTitle = name
+      
+        vc.navTitle = assetCollection.localizedTitle!
         vc.assetCollection = assetCollection
     }
 }
