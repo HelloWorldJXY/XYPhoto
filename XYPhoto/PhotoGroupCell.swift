@@ -10,19 +10,37 @@ import UIKit
 import Photos
 class PhotoGroupCell: UITableViewCell {
     var nameFont = CGFloat(16)
+    let cellHeight = 60
     var group : PHAssetCollection!
 
-    @IBOutlet weak var thumbImgView: UIImageView!
+    var thumbImgView: UIImageView!
+    var groupNameLabel: UILabel!
+    var groupCountslabel: UILabel!
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.thumbImgView = UIImageView(frame: CGRect(x: 0, y: 0, width: cellHeight, height: cellHeight))
+        self.thumbImgView.clipsToBounds = true
+        self.thumbImgView.image = UIImage(named: "thumbs_default")
+        
+        self.groupNameLabel = UILabel()
+        self.groupNameLabel.frame = CGRect(x: Int(thumbImgView.frame.maxX + 15), y: 0, width: 150, height: cellHeight)
+        self.groupNameLabel.font = UIFont.systemFont(ofSize: nameFont)
+        self.groupNameLabel.textColor = UIColor.gray
+        
+        self.groupCountslabel = UILabel()
+        self.groupCountslabel.frame = CGRect(x: Int(groupNameLabel.frame.maxX + 15), y: 0, width: 100, height: cellHeight)
+        self.groupCountslabel.font = UIFont.systemFont(ofSize: 15)
+        self.groupCountslabel.textColor = UIColor.lightGray
+        
+        self.addSubview(self.thumbImgView)
+        self.addSubview(self.groupNameLabel)
+        self.addSubview(self.groupCountslabel)
+    }
     
-    @IBOutlet weak var groupNameLabel: UILabel!
-    
-    @IBOutlet weak var groupCountslabel: UILabel!
-    
-    @IBOutlet weak var groupNameLabWid: NSLayoutConstraint!
-    
-    @IBOutlet weak var countsLabWid: NSLayoutConstraint!
-    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,20 +53,22 @@ class PhotoGroupCell: UITableViewCell {
     }
     
     public func  reloadCellWithPHAssetCollection(assetCollection : PHAssetCollection)  {
-        thumbImgView?.clipsToBounds = true
-        thumbImgView.image = UIImage(named: "thumbs_default")
+
         selectionStyle = .none
         let fetchResult = PHAsset.fetchAssets(in: assetCollection , options: nil)
-        self.groupNameLabel.text = assetCollection.localizedTitle
-        let groupNameLength = CGFloat((assetCollection.localizedTitle?.characters.count)! * Int(nameFont))
-        let margin = CGFloat(5)
-        groupNameLabWid.constant = margin * 2 + groupNameLength
+        let name = assetCollection.localizedTitle! as NSString
+        let maxSize = CGSize(width: 320, height: 100)
+        let nameAttributes = [NSFontAttributeName:UIFont.systemFont(ofSize: nameFont)]
+
+        self.groupNameLabel.text = name as String
+        let nameRect : CGRect = name.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: nameAttributes, context: nil)
+        self.groupNameLabel.frame.size.width = nameRect.size.width + 10
         
-        var countString = "(" + String(fetchResult.count) + ")"
-        countString = countString.trimmingCharacters(in: CharacterSet.whitespaces)
-        let countsLength = CGFloat(countString.characters.count * Int(nameFont))
-        countsLabWid.constant =  countsLength
-        self.groupCountslabel.text = countString
+        let countString  = NSString(string: "( " + String(fetchResult.count) + " )")
+        let attributes = [NSFontAttributeName:UIFont.systemFont(ofSize: nameFont)]
+        let rect:CGRect = countString.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        self.groupCountslabel.frame.size.width = rect.size.width + 10
+        self.groupCountslabel.text = countString as String
 
         if let lastCollection = fetchResult.lastObject {
             let option = PHImageRequestOptions()
@@ -57,13 +77,13 @@ class PhotoGroupCell: UITableViewCell {
 
             PHImageManager.default().requestImage(for: lastCollection, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: option) { (thumbImg, objects) in
                 DispatchQueue.main.async {
-                    self.thumbImgView?.image = thumbImg
+                    self.thumbImgView.image = thumbImg
                 }
             }
         }
 
     }
     deinit {
-        print("PhotoGroupCell deinit")
+        //print("PhotoGroupCell deinit")
     }
 }

@@ -25,7 +25,7 @@ class PhotoGroupTableView: UITableView,UITableViewDataSource,UITableViewDelegate
         backgroundColor = UIColor.clear
         separatorStyle = .singleLine
         separatorInset = UIEdgeInsetsMake(0, -120, 0, -120)
-        register(UINib(nibName : tableCellIdentifier, bundle : nil), forCellReuseIdentifier: tableCellIdentifier)
+        register(PhotoGroupCell.self, forCellReuseIdentifier: tableCellIdentifier)
         delegate = self
         dataSource = self
         setDataSource()

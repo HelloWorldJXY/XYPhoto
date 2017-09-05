@@ -21,7 +21,7 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
         delegate = self
         dataSource = self
 
-        self.register(UINib.init(nibName: cellIdentifier, bundle: Bundle.main), forCellWithReuseIdentifier: cellIdentifier)
+        self.register(PhotoLibraryCollectionCell.self, forCellWithReuseIdentifier: cellIdentifier)
         weak var weakSelf = self
         
         let fetchResult = PHAsset.fetchAssets(in: assetCollection, options: nil)
@@ -40,7 +40,6 @@ class PhotoLibaryCollectionView: UICollectionView ,UICollectionViewDataSource,UI
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let cell = dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! PhotoLibraryCollectionCell
-        cell.setOriginStatus()
         let phasset = assetArray[indexPath.row]
         cell.fillData(phasset)
         return cell
