@@ -24,12 +24,12 @@ class PhotoGroupCell: UITableViewCell {
         self.thumbImgView.image = UIImage(named: "thumbs_default")
         
         self.groupNameLabel = UILabel()
-        self.groupNameLabel.frame = CGRect(x: Int(thumbImgView.frame.maxX + 15), y: 0, width: 150, height: cellHeight)
+        self.groupNameLabel.frame = CGRect(x: Int(thumbImgView.frame.maxX + 15), y: 0, width: 50, height: cellHeight)
         self.groupNameLabel.font = UIFont.systemFont(ofSize: nameFont)
         self.groupNameLabel.textColor = UIColor.gray
         
         self.groupCountslabel = UILabel()
-        self.groupCountslabel.frame = CGRect(x: Int(groupNameLabel.frame.maxX + 15), y: 0, width: 100, height: cellHeight)
+        self.groupCountslabel.frame = CGRect(x: Int(groupNameLabel.frame.maxX + 15), y: 0, width: 50, height: cellHeight)
         self.groupCountslabel.font = UIFont.systemFont(ofSize: 15)
         self.groupCountslabel.textColor = UIColor.lightGray
         
@@ -62,13 +62,14 @@ class PhotoGroupCell: UITableViewCell {
 
         self.groupNameLabel.text = name as String
         let nameRect : CGRect = name.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: nameAttributes, context: nil)
-        self.groupNameLabel.frame.size.width = nameRect.size.width + 10
+        self.groupNameLabel.frame = CGRect(x: Int(thumbImgView.frame.maxX + 15), y: 0, width: Int(nameRect.size.width + 10), height: cellHeight)
         
         let countString  = NSString(string: "( " + String(fetchResult.count) + " )")
         let attributes = [NSFontAttributeName:UIFont.systemFont(ofSize: nameFont)]
         let rect:CGRect = countString.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        self.groupCountslabel.frame.size.width = rect.size.width + 10
+        
         self.groupCountslabel.text = countString as String
+        self.groupCountslabel.frame = CGRect(x: Int(groupNameLabel.frame.maxX + 15), y: 0, width: Int(rect.size.width + 10), height: cellHeight)
 
         if let lastCollection = fetchResult.lastObject {
             let option = PHImageRequestOptions()

@@ -32,7 +32,7 @@ class PhotoGroupPickerViewController: UIViewController,PhotoGroupTableDelegate {
         setnav()
     }
     func setnav() {
-        title = "照片"
+        title = "相册"
         let backButton = UIButton(type: .custom)
         backButton.frame = CGRect(x: 0, y: 0, width: 110, height: 44)
         backButton.backgroundColor = UIColor.clear
